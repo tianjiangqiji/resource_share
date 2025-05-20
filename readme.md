@@ -1,8 +1,8 @@
 # 软件资源站部署指南
 ## 项目截图
-深色模式:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2862461.jpeg
-主页:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd22eb86e.jpeg
-设置:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2101652.jpeg
+- 深色模式: `https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2862461.jpeg`
+- 主页:`https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd22eb86e.jpeg`
+- 设置:`https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2101652.jpeg`
 ## 项目概述
 
 这是一个基于Flask和SQLite的Material Design风格的·轻量化·软件资源站，具有以下功能：
@@ -135,10 +135,13 @@ software_resource_site/
 ## 自定义配置
 
 如需修改配置，请编辑 `app.py` 文件中的以下部分：
-
 - 修改数据库路径：`DATABASE = 'software_resource.db'`
 - 修改端口：`app.run(host='0.0.0.0', port=5000, debug=False)`
-- 修改主页标题：index.html 第18行`<h1 class="title">Skyjee 软件资源分享站</h1>`
+
+编辑 `index.html` 文件中的以下部分：
+- 修改主页标题： 第18行`<h1 class="title">Skyjee 软件资源分享站</h1>`
+
+编辑 `.html` 文件中的以下部分：
 - 修改顶部标签页标题：全局搜索`SkyJee 软件资源站</title>`进行替换
 - 替换网站图标：替换`static/favicon.ico`为你自己的图标文件
 ## 备份数据
