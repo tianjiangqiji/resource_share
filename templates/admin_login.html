@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <a href="{{ url_for('index') }}" class="back-button">
+                <span class="material-icons">arrow_back</span>
+            </a>
+            <h1 class="title">管理员登录</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="login-container">
+                <form class="login-form" method="POST" action="{{ url_for('admin_login') }}">
+                    <div class="form-header">
+                        <span class="material-icons form-icon">admin_panel_settings</span>
+                        <h2>管理员登录</h2>
+                    </div>
+                    
+                    {% if error %}
+                    <div class="error-message">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <label for="admin_key">管理员密钥</label>
+                        <input type="password" id="admin_key" name="admin_key" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="button">登录</button>
+                        <a href="{{ url_for('index') }}" class="button button-secondary">返回</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

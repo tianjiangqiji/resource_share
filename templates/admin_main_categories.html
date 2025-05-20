@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <button class="menu-button" onclick="toggleDrawer()">
+                <span class="material-icons">menu</span>
+            </button>
+            <h1 class="title">管理</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+                <a href="{{ url_for('admin_logout') }}" class="button">退出登录</a>
+            </div>
+        </header>
+
+        <!-- 左侧抽屉菜单 -->
+        <aside class="drawer" id="drawer">
+            <div class="drawer-header">
+                <h2>管理菜单</h2>
+            </div>
+            <nav>
+                <a href="{{ url_for('admin_dashboard') }}" class="drawer-item">
+                    <span class="material-icons">dashboard</span>
+                    <span>仪表盘</span>
+                </a>
+                <a href="{{ url_for('admin_main_categories') }}" class="drawer-item active">
+                    <span class="material-icons">category</span>
+                    <span>管理</span>
+                </a>
+                <a href="{{ url_for('admin_settings') }}" class="drawer-item">
+                    <span class="material-icons">settings</span>
+                    <span>设置</span>
+                </a>
+                <a href="{{ url_for('index') }}" class="drawer-item">
+                    <span class="material-icons">home</span>
+                    <span>返回首页</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="admin-container">
+                <div class="admin-header">
+                    <h2>管理</h2>
+                    <a href="{{ url_for('admin_main_category') }}" class="button">
+                        <span class="material-icons">add</span>
+                        <span>添加主分类</span>
+                    </a>
+                </div>
+                
+                <div class="admin-content">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>名称</th>
+                                <th>描述</th>
+                                <th>图标</th>
+                                <th>排序</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                            <tr>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.name }}</td>
+                                <td>{{ category.description }}</td>
+                                <td>
+                                    {% if category.icon %}
+                                    <span class="material-icons">{{ category.icon }}</span>
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                                <td>{{ category.display_order }}</td>
+                                <td class="actions">
+                                    <a href="{{ url_for('admin_sub_categories', main_id=category.id) }}" class="icon-button" title="管理副分类">
+                                        <span class="material-icons">list</span>
+                                    </a>
+                                    <a href="{{ url_for('admin_main_category', category_id=category.id) }}" class="icon-button" title="编辑">
+                                        <span class="material-icons">edit</span>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('delete_main_category', category_id=category.id) }}" class="inline-form" onsubmit="return confirm('确定要删除此分类吗？这将同时删除所有关联的副分类和软件资源！')">
+                                        <button type="submit" class="icon-button danger" title="删除">
+                                            <span class="material-icons">delete</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

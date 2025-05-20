@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>软件编辑 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <a href="{{ url_for('admin_software', sub_id=sub_id) }}" class="back-button">
+                <span class="material-icons">arrow_back</span>
+            </a>
+            <h1 class="title">{{ '编辑软件' if software else '添加软件' }}</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="form-container">
+                <form method="POST" action="{{ url_for('admin_software_item', software_id=software.id) if software else url_for('admin_software_item', sub_id=sub_id) }}">
+                    <div class="form-group">
+                        <label for="sub_category_id">所属副分类</label>
+                        <select id="sub_category_id" name="sub_category_id" required>
+                            {% for sub_category in sub_categories %}
+                            <option value="{{ sub_category.id }}" {% if sub_id == sub_category.id or (software and software.sub_category_id == sub_category.id) %}selected{% endif %}>
+                                {{ sub_category.main_name }} - {{ sub_category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">软件名称</label>
+                        <input type="text" id="name" name="name" value="{{ software.name if software else '' }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="version">版本</label>
+                        <input type="text" id="version" name="version" value="{{ software.version if software else '' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="size">大小</label>
+                        <input type="text" id="size" name="size" value="{{ software.size if software else '' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="system_requirements">系统要求</label>
+                        <input type="text" id="system_requirements" name="system_requirements" value="{{ software.system_requirements if software else '' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">软件说明</label>
+                        <textarea id="description" name="description" rows="5">{{ software.description if software else '' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="download_url">下载链接</label>
+                        <input type="url" id="download_url" name="download_url" value="{{ software.download_url if software else '' }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="image_url">图片链接 (可选)</label>
+                        <input type="url" id="image_url" name="image_url" value="{{ software.image_url if software else '' }}">
+                        <div class="help-text">提供软件截图或图标的URL</div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="button">保存</button>
+                        <a href="{{ url_for('admin_software', sub_id=sub_id) }}" class="button button-secondary">取消</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

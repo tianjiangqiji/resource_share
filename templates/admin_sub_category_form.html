@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>副分类编辑 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <a href="{{ url_for('admin_sub_categories', main_id=main_id) }}" class="back-button">
+                <span class="material-icons">arrow_back</span>
+            </a>
+            <h1 class="title">{{ '编辑副分类' if category else '添加副分类' }}</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="form-container">
+                <form method="POST" action="{{ url_for('admin_sub_category', category_id=category.id) if category else url_for('admin_sub_category', main_id=main_id) }}">
+                    <div class="form-group">
+                        <label for="main_category_id">所属主分类</label>
+                        <select id="main_category_id" name="main_category_id" required>
+                            {% for main_category in main_categories %}
+                            <option value="{{ main_category.id }}" {% if main_id == main_category.id or (category and category.main_category_id == main_category.id) %}selected{% endif %}>
+                                {{ main_category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">分类名称</label>
+                        <input type="text" id="name" name="name" value="{{ category.name if category else '' }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">分类描述</label>
+                        <textarea id="description" name="description" rows="3">{{ category.description if category else '' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="icon">图标 (Material Icons名称)</label>
+                        <div class="icon-input-container">
+                            <input type="text" id="icon" name="icon" value="{{ category.icon if category else '' }}">
+                            <span class="material-icons preview-icon" id="iconPreview">{{ category.icon if category else 'folder' }}</span>
+                        </div>
+                        <div class="help-text">
+                            <a href="https://fonts.google.com/icons" target="_blank">浏览可用图标</a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="display_order">显示顺序</label>
+                        <input type="number" id="display_order" name="display_order" value="{{ category.display_order if category else 0 }}">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="button">保存</button>
+                        <a href="{{ url_for('admin_sub_categories', main_id=main_id) }}" class="button button-secondary">取消</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // 图标预览功能
+        document.getElementById('icon').addEventListener('input', function() {
+            const iconName = this.value.trim();
+            document.getElementById('iconPreview').textContent = iconName || 'folder';
+        });
+    </script>
+</body>
+</html>

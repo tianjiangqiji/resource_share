@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理面板 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <button class="menu-button" onclick="toggleDrawer()">
+                <span class="material-icons">menu</span>
+            </button>
+            <h1 class="title">管理面板</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+                <a href="{{ url_for('admin_logout') }}" class="button">退出登录</a>
+            </div>
+        </header>
+
+        <!-- 左侧抽屉菜单 -->
+        <aside class="drawer" id="drawer">
+            <div class="drawer-header">
+                <h2>管理菜单</h2>
+            </div>
+            <nav>
+                <a href="{{ url_for('admin_dashboard') }}" class="drawer-item">
+                    <span class="material-icons">dashboard</span>
+                    <span>仪表盘</span>
+                </a>
+                <a href="{{ url_for('admin_main_categories') }}" class="drawer-item">
+                    <span class="material-icons">category</span>
+                    <span>管理</span>
+                </a>
+                <a href="{{ url_for('admin_settings') }}" class="drawer-item">
+                    <span class="material-icons">settings</span>
+                    <span>设置</span>
+                </a>
+                <a href="{{ url_for('index') }}" class="drawer-item">
+                    <span class="material-icons">home</span>
+                    <span>返回首页</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>仪表盘</h2>
+                </div>
+                
+                <div class="stats-cards">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <span class="material-icons">apps</span>
+                        </div>
+                        <div class="stats-info">
+                            <div class="stats-value">{{ total_software }}</div>
+                            <div class="stats-label">软件总数</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <span class="material-icons">visibility</span>
+                        </div>
+                        <div class="stats-info">
+                            <div class="stats-value">{{ total_visits }}</div>
+                            <div class="stats-label">总访问量</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <span class="material-icons">download</span>
+                        </div>
+                        <div class="stats-info">
+                            <div class="stats-value">{{ total_downloads }}</div>
+                            <div class="stats-label">总下载量</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>最近7天访问统计</h3>
+                        <canvas id="visitsChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>最近7天下载统计</h3>
+                        <canvas id="downloadsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="dashboard-tables">
+                    <div class="table-container">
+                        <h3>热门软件</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>软件名称</th>
+                                    <th>下载次数</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topSoftwareTable">
+                                <!-- 将通过API加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-container">
+                        <h3>最近访问</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>页面</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for visit in recent_visits %}
+                                <tr>
+                                    <td>{{ visit.page_name }}</td>
+                                    <td>{{ visit.visit_time }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-container">
+                        <h3>最近下载</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>软件</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for download in recent_downloads %}
+                                <tr>
+                                    <td>{{ download.software_name }}</td>
+                                    <td>{{ download.download_time }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>软件详情 - SkyJee 软件资源站</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <button class="menu-button" onclick="toggleDrawer()">
+                <span class="material-icons">menu</span>
+            </button>
+            <h1 class="title">软件详情</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+                {% if is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="button">管理面板</a>
+                {% else %}
+                <a href="{{ url_for('admin_login') }}" class="button">管理员</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- 左侧抽屉菜单 -->
+        <aside class="drawer" id="drawer">
+            <div class="drawer-header">
+                <h2>软件分类</h2>
+            </div>
+            <nav id="main-categories">
+                <!-- 分类将通过AJAX加载 -->
+            </nav>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="detail-container">
+                <div class="detail-header">
+                    <h2 class="software-name">{{ software.name }}</h2>
+                    <div class="software-version">{{ software.version }}</div>
+                </div>
+                
+                <div class="detail-content">
+                    {% if software.image_url %}
+                    <div class="detail-image-container">
+                        <img class="software-image" src="{{ software.image_url }}" alt="{{ software.name }}">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="detail-info">
+                        <div class="info-item">
+                            <span class="info-label">大小：</span>
+                            <span class="software-size">{{ software.size }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">系统要求：</span>
+                            <span class="software-requirements">{{ software.system_requirements }}</span>
+                        </div>
+                        <div class="info-item description">
+                            <span class="info-label">软件说明：</span>
+                            <div class="software-description">{{ software.description }}</div>
+                        </div>
+                        <div class="download-section">
+                            <a href="{{ url_for('download', software_id=software.id) }}" class="download-button" target="_blank">
+                                <span class="material-icons">download</span>
+                                <span>下载</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

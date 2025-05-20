@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJee 软件资源站</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <!-- 菜单按钮，触发抽屉切换 -->
+            <button class="menu-button" onclick="toggleDrawer()">
+                <span class="material-icons">menu</span>
+            </button>
+            <h1 class="title">Skyjee 软件资源分享站</h1>
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" title="切换主题">
+                    <span class="material-icons theme-icon">brightness_4</span>
+                </button>
+                {% if is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="button">管理面板</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- 左侧抽屉菜单 -->
+        <aside class="drawer" id="drawer">
+            <div class="drawer-header">
+                <h2>软件分类</h2>
+            </div>
+            <nav id="main-categories">
+                {% for category in main_categories %}
+                <div class="category-item">
+                    <div class="category-header" onclick="toggleSubcategories({{ category.id }})">
+                        {% if category.icon %}
+                        <span class="material-icons">{{ category.icon }}</span>
+                        {% else %}
+                        <span class="material-icons">folder</span>
+                        {% endif %}
+                        <span>{{ category.name }}</span>
+                        <span class="material-icons expand-icon">expand_more</span>
+                    </div>
+                    <div class="subcategories" id="subcategories-{{ category.id }}">
+                        <!-- 副分类将通过AJAX加载 -->
+                    </div>
+                </div>
+                {% endfor %}
+            </nav>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content" id="main-content">
+            <div class="welcome-section">
+                <h2>欢迎使用软件资源站</h2>
+                <p>请从左侧选择分类浏览软件资源</p>
+            </div>
+            
+            <!-- 软件列表区域 -->
+            <div class="software-list" id="software-list" style="display: none;">
+                <!-- 软件列表将通过AJAX加载 -->
+            </div>
+            
+            <!-- 软件详情区域 -->
+            <div class="software-detail" id="software-detail" style="display: none;">
+                <!-- 软件详情将通过AJAX加载 -->
+            </div>
+        </main>
+        
+        <!-- 页脚区域 -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="copyright">
+                    &copy; 2025 Skyjee&tianjiangqiji 版权所有
+                </div>
+                <div class="github-link">
+                    <a href="https://github.com/tianjiangqiji/resource_share" target="_blank" class="github-button">
+                        <span class="material-icons">star</span>
+                        <span>在GitHub上给我们星标</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 软件详情模板 -->
+    <template id="software-detail-template">
+        <div class="detail-container">
+            <div class="detail-header">
+                <h2 class="software-name"></h2>
+                <div class="software-version"></div>
+            </div>
+            
+            <div class="detail-content">
+                <div class="detail-image-container">
+                    <img class="software-image" src="" alt="">
+                </div>
+                
+                <div class="detail-info">
+                    <div class="info-item">
+                        <span class="info-label">大小：</span>
+                        <span class="software-size"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">系统要求：</span>
+                        <span class="software-requirements"></span>
+                    </div>
+                    <div class="info-item description">
+                        <span class="info-label">软件说明：</span>
+                        <div class="software-description"></div>
+                    </div>
+                    <div class="download-section">
+                        <a href="#" class="download-button" target="_blank">
+                            <span class="material-icons">download</span>
+                            <span>下载</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 引入脚本 -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
