@@ -101,7 +101,7 @@ def get_subcategories(main_id):
 # 获取软件资源
 @app.route('/api/software/<int:sub_id>')
 def get_software(sub_id):
-    software_list = query_db('SELECT * FROM software_resources WHERE sub_category_id = ? ORDER BY name', [sub_id])
+    software_list = query_db('SELECT * FROM software_resources WHERE sub_category_id = ? ORDER BY version DESC, name', [sub_id])
     return jsonify([dict(row) for row in software_list])
 
 # 软件详情页
@@ -282,7 +282,7 @@ def admin_software(sub_id):
     if not sub_category:
         abort(404)
     
-    software_list = query_db('SELECT * FROM software_resources WHERE sub_category_id = ? ORDER BY name', [sub_id])
+    software_list = query_db('SELECT * FROM software_resources WHERE sub_category_id = ? ORDER BY version DESC, name', [sub_id])
     return render_template('admin_software.html', sub_category=sub_category, software_list=software_list)
 
 # 添加/编辑软件资源
