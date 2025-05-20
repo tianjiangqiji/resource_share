@@ -1,8 +1,8 @@
 # 软件资源站部署指南
 ## 项目截图
-深色模式:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2862461.jpeg
-主页:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd22eb86e.jpeg
-设置:https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2101652.jpeg
+深色模式: `https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2862461.jpeg`
+主页:`https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd22eb86e.jpeg`
+设置:`https://cloud.skyjee.cn/d/lanzou/2025/05/20/682bdd2101652.jpeg`
 ## 项目概述
 
 这是一个基于Flask和SQLite的Material Design风格的·轻量化·软件资源站，具有以下功能：
